@@ -1,7 +1,6 @@
 package com.bootcamp.application.chatBot.configurations;
 
 import com.bootcamp.application.chatBot.filters.WebFilter;
-import com.bootcamp.application.chatBot.services.JwtService;
 import com.bootcamp.application.chatBot.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -36,7 +36,7 @@ public class WebFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        String username = jwtService.exractUsername(token);
+        String username = jwtService.extractUsername(token);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails = userService.loadUserByUsername(username);

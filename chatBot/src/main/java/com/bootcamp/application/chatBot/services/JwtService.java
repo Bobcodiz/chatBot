@@ -1,18 +1,15 @@
 package com.bootcamp.application.chatBot.services;
 
 import com.bootcamp.application.chatBot.models.User;
-import com.bootcamp.application.chatBot.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -28,7 +25,7 @@ public class JwtService  {
         return resolver.apply(claims);
     }
 
-    public String exractUsername(String token){
+    public String extractUsername(String token){
         return extractClaim(token,Claims::getSubject);
     }
 
@@ -40,7 +37,7 @@ public class JwtService  {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    private String generateToken(User user){
+    public String generateToken(User user){
         return Jwts
                 .builder()
                 .subject(user.getUsername())
@@ -51,7 +48,7 @@ public class JwtService  {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails){
-        String username = exractUsername(token);
+        String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
