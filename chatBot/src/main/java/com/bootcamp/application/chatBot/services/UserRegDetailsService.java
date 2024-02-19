@@ -6,13 +6,13 @@ import com.bootcamp.application.chatBot.models.Role;
 import com.bootcamp.application.chatBot.models.User;
 import com.bootcamp.application.chatBot.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.bootcamp.application.chatBot.models.Role.ADMIN;
 import static com.bootcamp.application.chatBot.models.Role.USER;
 
 @Service
@@ -24,9 +24,15 @@ public class UserRegDetailsService {
     private final JwtService jwtService;
     private AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegistrationRequest request){
+    public AuthenticationResponse userRegister(RegistrationRequest request){
+        return getAuthenticationResponse(request, USER);
+    }
+    public AuthenticationResponse adminRegister(RegistrationRequest request){
+        return getAuthenticationResponse(request, ADMIN);
+    }
+
+    private AuthenticationResponse getAuthenticationResponse(RegistrationRequest request, Role role) {
         User user = new User();
-        Role role = USER;
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
