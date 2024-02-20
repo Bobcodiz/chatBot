@@ -29,16 +29,14 @@ public class SecurityConfiguration {
         return  httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req->req
+                        .requestMatchers("/api/v1/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN","USER")
-                        .requestMatchers("/api/v1/**")
-                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .userDetailsService(userService)
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin(Customizer.withDefaults())
                 .build();
 
     }
